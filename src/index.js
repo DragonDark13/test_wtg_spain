@@ -19,10 +19,12 @@ $(document).ready(function () {
     const $successModal = new Modal($('#successModal'));
     const $deleteConfirmationModal = new Modal($('#deleteConfirmationModal'));
 
+    const isGitHubPages = window.location.hostname === 'dragondark13.github.io';
+
     const dataUrl = {
-        city: "http://localhost:3001/cities",
-        type: 'http://localhost:3001/types',
-        rows: 'http://localhost:3001/dataRows',
+        city: isGitHubPages ? "/test_wtg_spain/data/dataRows.json" : "http://localhost:3001/cities",
+        type: isGitHubPages ? "/test_wtg_spain/data/dataRows.json" : 'http://localhost:3001/types',
+        rows: isGitHubPages ? "/test_wtg_spain/data/dataRows.json" : 'http://localhost:3001/dataRows',
     }
 
     const bindEventHandlers = () => {
@@ -37,8 +39,8 @@ $(document).ready(function () {
         clearControlPanelFields();
         bindEventHandlers();
         initSimplyTableRows();
-        initializeSelect2WithData($allCity, dataUrl.city, 'Change all city fields');
-        initializeSelect2WithData($allType, dataUrl.type, 'Change all type fields');
+        initializeSelect2WithData($allCity, dataUrl.city, 'Change all city fields','',"city");
+        initializeSelect2WithData($allType, dataUrl.type, 'Change all type fields',"","type");
     };
 
     const editAll = () => {
@@ -112,8 +114,8 @@ $(document).ready(function () {
         $row.on('click', '.btn-delete', deleteRow);
         $row.on('click', '.btn-copy', copyRow);
 
-        initializeSelect2WithData($row.find('.city_select'), dataUrl.city, 'City', city);
-        initializeSelect2WithData($row.find('.type_select'), dataUrl.type, 'Type', type);
+        initializeSelect2WithData($row.find('.city_select'), dataUrl.city, 'City', city,"city");
+        initializeSelect2WithData($row.find('.type_select'), dataUrl.type, 'Type', type,"type");
     };
 
     const initSimplyTableRows = () => {
@@ -122,9 +124,17 @@ $(document).ready(function () {
             type: 'GET',
             dataType: 'json',
             success: (data) => {
-                data.forEach((item, index) => {
+
+                let dataTableRows
+                if (isGitHubPages) {
+                    dataTableRows = data.dataRows
+                } else {
+                    dataTableRows = data
+                }
+                dataTableRows.forEach((item, index) => {
                     renderTableRow(index + 1, item.id, item.price, item.type, item.city);
                 });
+
             },
             error: (error) => {
                 console.error('Error fetching data:', error);
@@ -137,13 +147,30 @@ $(document).ready(function () {
         renderTableRow(rowCount, "", "", "", "");
     };
 
-    const initializeSelect2WithData = ($element, url, placeholder, selected) => {
+    const initializeSelect2WithData = ($element, url, placeholder, selected, selectName) => {
         $.ajax({
             url: url,
             type: 'GET',
             dataType: 'json',
             success: (data) => {
-                data.forEach((item) => {
+
+                let dataForSelect;
+
+                if (isGitHubPages) {
+
+                    if (selectName === "city") {
+                        dataForSelect = data.cities;
+                    } else if (selectName === "type") {
+                        dataForSelect = data.types;
+                    } else {
+                        console.log("error, not found data");
+                    }
+
+                } else {
+                    dataForSelect = data
+                }
+
+                dataForSelect.forEach((item) => {
                     $('<option>').val(item.id).text(item.name).appendTo($element);
                 });
 
