@@ -1,0 +1,50 @@
+{
+  "dataRows": [
+    {
+      "id": "AB13",
+      "price": 100000,
+      "type": "type1",
+      "city": "city1"
+    },
+    {
+      "id": "AB11",
+      "price": 120000,
+      "type": "type2",
+      "city": "city2"
+    },
+    {
+      "id": "AB21",
+      "price": 90000,
+      "type": "type3",
+      "city": "city3"
+    }
+  ],
+  "types": [
+    {
+      "id": "type1",
+      "name": "Type 1"
+    },
+    {
+      "id": "type2",
+      "name": "Type 2"
+    },
+    {
+      "id": "type3",
+      "name": "Type 3"
+    }
+  ],
+  "cities": [
+    {
+      "id": "city1",
+      "name": "City 1"
+    },
+    {
+      "id": "city2",
+      "name": "City 2"
+    },
+    {
+      "id": "city3",
+      "name": "City 3"
+    }
+  ]
+}
