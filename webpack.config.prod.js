@@ -13,6 +13,8 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin({
             patterns: [
+                {from: 'node_modules/bootstrap/dist/css/bootstrap.min.css', to: 'css/bootstrap.min.css'},
+                {from: 'node_modules/select2/dist/css/select2.min.css', to: 'css/select2.min.css'},
                 {from: 'src/index.html', to: 'index.html'},
                 {from: 'data/dataRows.json', to: 'data/dataRows.json'},
             ]
