@@ -11,7 +11,13 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-        new CopyWebpackPlugin({patterns: [{from: 'src/index.html', to: 'index.html'}]}),
+        new CopyWebpackPlugin({
+            patterns: [
+                {from: 'node_modules/bootstrap/dist/css/bootstrap.min.css', to: 'css/bootstrap.min.css'},
+                {from: 'node_modules/select2/dist/css/select2.min.css', to: 'css/select2.min.css'},
+                {from: 'src/index.html', to: 'index.html'}
+            ]
+        }),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jquery: 'jquery',
